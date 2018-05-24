@@ -28,6 +28,10 @@ sealed abstract class Maybe[A] {
       case Empty() => b
     }
 
+  /** Alias for `cata`. */
+  @inline final def fold[B](f: A => B, b: => B): B =
+    cata(f, b)
+
   /** Return the underlying value if present, otherwise the provided fallback value */
   final def getOrElse(a: => A): A =
     cata(identity, a)

@@ -49,6 +49,8 @@ final case class MaybeT[F[_], A](run: F[Maybe[A]]) {
 
   def cata[X](just: A => X, empty: => X)(implicit F: Functor[F]): F[X] = mapO(_.cata(just, empty))
 
+  def fold[B](just: A => B, empty: => B)(implicit F: Functor[F]): F[B] = cata(just, empty)
+
   def getOrElse(default: => A)(implicit F: Functor[F]): F[A] = mapO(_.getOrElse(default))
 
   /** Alias for `getOrElse`. */
